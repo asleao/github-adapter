@@ -3,15 +3,16 @@ from flask import (
 )
 from werkzeug.exceptions import abort
 from github import Github
-from flask import jsonify
+from flask import jsonify, request
 
 blueprint = Blueprint('github', __name__)
 
 
-@blueprint.route('/v1/auth')
+@blueprint.route('/v1/auth', methods=['POST'])
 def authenticate():
-    username = ""
-    password = ""
+    data = request.json
+    username = data['username']
+    password = data['password']
 
     github_object = Github(username, password)
 
