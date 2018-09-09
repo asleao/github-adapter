@@ -1,7 +1,6 @@
 import os
 
 from flask import Flask
-from . import github
 
 
 def create_app(test_config=None):
@@ -24,7 +23,8 @@ def create_app(test_config=None):
         os.makedirs(app.instance_path)
     except OSError:
         pass
-
+    
+    from . import github
     app.register_blueprint(github.blueprint)
     app.add_url_rule('/v1/auth', endpoint='authenticate')
 
