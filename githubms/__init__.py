@@ -28,4 +28,8 @@ def create_app(test_config=None):
     app.register_blueprint(github.blueprint)
     app.add_url_rule('/v1/auth', endpoint='authenticate')
 
+    if __name__ == "__main__":
+        port = int(os.environ.get("PORT", 5000))
+        app.run(host='0.0.0.0', port=port)
+
     return app

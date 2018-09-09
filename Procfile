@@ -1,1 +1,1 @@
-web: gunicorn githubms:create_app
+web: python githubms/__init__.py
