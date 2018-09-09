@@ -1,4 +1,4 @@
-# github-service
+# github-service [![Build Status](https://travis-ci.org/asleao/github-service.svg?branch=master)](https://travis-ci.org/asleao/github-service)
 Micro serviço para realizar a comunicação com a api do Github.
 
 # Instalação
