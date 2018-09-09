@@ -1,0 +1,11 @@
+language: python
+python:
+- 3.6
+install: "-pip install -e ."
+deploy:
+  provider: heroku
+  api_key:
+    secure: fx4Z+5Ia51tMvpab/INPu4jEwqFb8EWlj4aGvXKfLXgUEWw0a5N3oWPpVYFDYLgt5NpTFBrWQRMYwffpuuE6psh/NAHg7+nMXCOkHSBCi3/IQiFXnAFW6R8+YJmIWT8OY4VGJYbSeeU5QAnjjVoN8DZkvShGSfE3OStod0MXdZc6HDDuNEoTGm8QMI+8R3wgRsAy4N/svYK/HT900CxXTpAJLRVmTC8EcpW1uZa3HFT7+mO57Y0Z+HwOWOqr0iuhXlYS9dD5QED53o7QPVrFTqvY+E4duXytn6V/OOAtRAQ7Nk56vQ38BBFe8BIeWyyQon7GG6lsrlnbNTt58PHd84YJzTTVKLqVraqe5APU7h/RKegggfgD3gaCKkfjAlb0LXnbWj3IY5OEBcB3uUNTLr7JwzlD9bibUalR8nMb5cqUvRoaBtJ7ST9XmcrpJlm3SckoSDboX9SfZ+TqI3brJwYK37XQDCbpvI8fFyhbpWRQwjp4PYM6ezt7b7cAJ6+X0Bjnp7uK/gd2Ui425f5Wod0KHoYbCxz14pgS0V+uZFRlODGiF2vWVyFI1yeSw0k0+0UD+c3FPq5IoAXYJm4BF+5BRSLAELmYJdP41dFkiBzoFR0AoUGLqT9JzP/kQFoYRLkxrhKxyPjtWb3oItKtkEwL7strQrI9OPvfsSXI1Xg=
+  app: github-mservice
+  on:
+    repo: asleao/github-service

@@ -1,0 +1,1 @@
+web: gunicorn githubms:create_app

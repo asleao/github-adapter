@@ -1,7 +1,7 @@
 from setuptools import find_packages, setup
 
 setup(
-    name='flaskr',
+    name='githubms',
     version='1.0.0',
     packages=find_packages(),
     include_package_data=True,
@@ -10,6 +10,11 @@ setup(
         'flask',
         'autopep8',
         'PyGithub',
-        'pylint'
+        'pylint',
+        'pytest',
+        'coverage',
+        'wheel',
+        'waitress',
+        'gunicorn'
     ],
 )
