@@ -14,7 +14,6 @@ setup(
         'pytest',
         'coverage',
         'wheel',
-        'waitress',
         'gunicorn'
     ],
 )
