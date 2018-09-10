@@ -14,7 +14,7 @@ try:
 except OSError:
     pass
 
-from githubms import github
+from . import github
 app.register_blueprint(github.blueprint)
 app.add_url_rule('/v1/auth', endpoint='authenticate')
 
