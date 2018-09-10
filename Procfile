@@ -1,1 +1,1 @@
-web: python githubms/__init__.py
+web: gunicorn githubms:app
