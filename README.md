@@ -11,3 +11,11 @@ Configure as variáveis de ambiente abaixo:
 Clone o projeto, entre no diretorio e rode o comando:
 
     pip install -e . 
+
+Para rodar o projeto execute o comando:
+
+    flask run
+
+Exemplo de requisição:
+
+    curl -d '{"username":"value1", "password":"value2"}' -H "Content-Type: application/json" -X POST https://github-mservice.herokuapp.com/v1/auth
