@@ -16,8 +16,8 @@ except OSError:
 
 from . import github
 app.register_blueprint(github.blueprint)
-app.add_url_rule('/v1/auth', endpoint='authenticate')
 app.add_url_rule('/v1/repo', endpoint='repository')
+app.add_url_rule('/v1/repo/collaborators', endpoint='repository/collaborators')
 
 
 # Configuration for deploy on Heroku
