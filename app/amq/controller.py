@@ -5,8 +5,7 @@ import logging
 
 def setup():
     URL = os.environ.get('CLOUDAMQP_URL')
-    PARAMS_AMQ = pika.URLParameters(URL)
-    return PARAMS_AMQ
+    return pika.URLParameters(URL)
 
 
 def read_from_queue(msg):
