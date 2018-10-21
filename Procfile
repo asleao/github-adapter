@@ -1,1 +1,1 @@
-web: gunicorn githubms:app
+web: gunicorn app:app
