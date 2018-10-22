@@ -7,8 +7,13 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 
+# Blueprints
+from .github.controller import blueprint
+app.register_blueprint(blueprint)
+app.add_url_rule('/v1/repo', endpoint='repository')
+app.add_url_rule('/v1/repo/collaborators', endpoint='repository/collaborators')
+
 # CloudAMQ
-"""
 from .amq.controller import setup, callback
 params_amq = setup()
 connection = pika.BlockingConnection(params_amq)
@@ -19,12 +24,6 @@ channel.basic_consume(callback,
                       no_ack=True)
 channel.start_consuming()
 connection.close()
-"""
-# Blueprints
-from .github.controller import blueprint
-app.register_blueprint(blueprint)
-app.add_url_rule('/v1/repo', endpoint='repository')
-app.add_url_rule('/v1/repo/collaborators', endpoint='repository/collaborators')
 
 # Configuration for deploy on Heroku
 if __name__ == "__main__":
