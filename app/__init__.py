@@ -14,16 +14,8 @@ app.add_url_rule('/v1/repo', endpoint='repository')
 app.add_url_rule('/v1/repo/collaborators', endpoint='repository/collaborators')
 
 # CloudAMQ
-from .amq.controller import setup, callback
-params_amq = setup()
-connection = pika.BlockingConnection(params_amq)
-channel = connection.channel()  # start a channel
-channel.queue_declare(queue='Github')
-channel.basic_consume(callback,
-                      queue='Github',
-                      no_ack=True)
-channel.start_consuming()
-connection.close()
+from .amq.amq import AmqThread
+thread = AmqThread()
 
 # Configuration for deploy on Heroku
 if __name__ == "__main__":
