@@ -4,7 +4,7 @@ import pika
 from .controller import setup, callback
 
 
-class AmqThread(object):
+class Amq(object):
     """ Background thread for consuming queues
     The run() method will be started and it will run in the background
     until the application exits.

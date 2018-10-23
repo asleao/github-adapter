@@ -14,8 +14,8 @@ app.add_url_rule('/v1/repo', endpoint='repository')
 app.add_url_rule('/v1/repo/collaborators', endpoint='repository/collaborators')
 
 # CloudAMQ
-from .amq.amq import AmqThread
-thread = AmqThread()
+from .amq.amq import Amq
+thread = Amq()
 
 # Configuration for deploy on Heroku
 if __name__ == "__main__":
