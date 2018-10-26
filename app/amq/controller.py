@@ -16,4 +16,5 @@ def read_from_queue(msg):
 
 
 def callback(ch, method, properties, body):
-    read_from_queue(body)
+    #read_from_queue(body)
+    controller.repository(body)

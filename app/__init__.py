@@ -8,7 +8,7 @@ app.config.from_object('config')
 
 
 # Blueprints
-from .github.controller import blueprint
+from .github.blueprint import blueprint
 app.register_blueprint(blueprint)
 app.add_url_rule('/v1/repo', endpoint='repository')
 app.add_url_rule('/v1/repo/collaborators', endpoint='repository/collaborators')
@@ -18,6 +18,7 @@ app.add_url_rule('/v1/authorizations', endpoint='authorization')
 from .amq.amq import Amq
 thread = Amq()
 
+app.app_context().push()
 # Configuration for deploy on Heroku
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
