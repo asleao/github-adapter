@@ -1,3 +1,6 @@
+"""
+    TODO: Alterar nome da classe para blueprint.
+"""
 from flask import (
     Blueprint, flash, g, redirect, render_template, request, url_for
 )
@@ -7,6 +10,8 @@ from flask import jsonify, request
 import json
 
 blueprint = Blueprint('github', __name__)
+
+# TODO criar endpont para criar uma authorization e retornar um token para a fila do cloud AMQ.
 
 
 def authenticate(request):
@@ -61,8 +66,36 @@ def remove_collaborator():
     repository = github_object.get_user().get_repo(repository_name)
 
     if repository.has_in_collaborators(collaborator) == False:
-        #TODO: realizar um retorno http para usuário não existente
+        # TODO: realizar um retorno http para usuário não existente
         return jsonify('{} doesn\'t exist in {}!'.format(collaborator, repository_name))
     else:
         repository.remove_from_collaborators(collaborator)
         return jsonify('{} removed succesfully from {}!'.format(collaborator, repository_name))
+
+# TODO Criar formulário para o usuário preencher os dados.
+
+
+@blueprint.route('/v1/authorizations', methods=['POST'])
+def create_authorization():
+    """
+    Funcion responsable for create a authorization for the application.
+    """
+    data = request.json
+    scopes = [
+        'user',
+        'read:org',
+        'public_repo',
+        'admin:repo_hook',
+        'admin:org',
+        'user:email'
+    ]
+    note = "Authorization for the project LedzZeppelin"
+    note_url = "http://www.ledzeppellin-api.com"
+    client_id = data['client_id']
+    client_secret = data['client_secret']
+    github_object = authenticate(request=request)
+    authorization = github_object.get_user().create_authorization(
+        scopes=scopes, note=note, note_url=note_url, client_id=client_id, client_secret=client_secret)
+    authorization_data = {}
+    authorization_data['token'] = authorization.token
+    return json.dumps(authorization_data)

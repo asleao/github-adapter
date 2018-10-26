@@ -12,6 +12,7 @@ from .github.controller import blueprint
 app.register_blueprint(blueprint)
 app.add_url_rule('/v1/repo', endpoint='repository')
 app.add_url_rule('/v1/repo/collaborators', endpoint='repository/collaborators')
+app.add_url_rule('/v1/authorizations', endpoint='authorization')
 
 # CloudAMQ
 from .amq.amq import Amq
