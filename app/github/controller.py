@@ -10,25 +10,61 @@ from flask import current_app
 # TODO criar endpont para criar uma authorization e retornar um token para a fila do cloud AMQ.
 
 
-def authenticate(request):
-    data = json.loads(request.decode('utf8').replace("'", '"'))
+def authenticate(data):
     if 'token' in data:
         return Github(data['token'])
     elif 'username' and 'password' in data:
         return Github(data['username'], data['password'])
 
 
-def repository(request):
+def repository(data):
     """
     Funcion responsable for getting the credentials and create a repository.
     """
-    data = json.loads(request.decode('utf8').replace("'", '"'))
-    github_object = authenticate(request=request)
+    github_object = authenticate(data=data)
     language = data['language']
     repository_name = data['name']
-
-    github_object.get_user().create_repo(
+    team = data['team']
+    repository = github_object.get_user().create_repo(
         repository_name, gitignore_template=language, auto_init=True)
     print('{} created succesfully!'.format(repository_name))
-    #TODO Enviar callback?    
 
+    for member in team:
+        add_collaborator(repository, member, repository_name)
+    # TODO Enviar callback?
+
+
+def manage_collaborators(data):
+    """
+        Funcion responsable for manage collaborators of the repository.
+    """
+    github_object = authenticate(data=data)
+    collaborator = data['collaborator']
+    repository_name = data['repo_name']
+    repository = github_object.get_user().get_repo(repository_name)
+
+    if data['action'] == 'add':
+        add_collaborator(repository, collaborator, repository_name)
+    elif data['action'] == 'remove':
+        remove_collaborator(repository, collaborator, repository_name)
+
+
+def add_collaborator(repository, collaborator, repository_name):
+    """
+        Funcion responsable for adding collaborators to the repository.
+    """
+    repository.add_to_collaborators(collaborator, repository_name)
+    print('{} added succesfully on {}!'.format(
+        collaborator, repository_name))
+
+
+def remove_collaborator(repository, collaborator, repository_name):
+    """
+        Funcion responsable to remove collaborators from the repository.
+    """
+    if repository.has_in_collaborators(collaborator) == False:
+        # TODO: realizar um retorno http para usuário não existente
+        return print('{} doesn\'t exist in {}!'.format(collaborator, repository_name))
+    else:
+        repository.remove_from_collaborators(collaborator)
+        return print('{} removed succesfully from {}!'.format(collaborator, repository_name))

@@ -1,6 +1,7 @@
 import pika
 import os
 import logging
+import json
 from app.github import controller
 
 
@@ -8,13 +9,10 @@ def setup():
     URL = os.environ.get('CLOUDAMQP_URL')
     return pika.URLParameters(URL)
 
-
-def read_from_queue(msg):
-    print(" Reading queue")
-    print(" Received %r" % msg)
-    print(" Created!")
-
-
-def callback(ch, method, properties, body):
-    #read_from_queue(body)
+def callback_repository(ch, method, properties, body):
+    body = json.loads(body.decode('utf8').replace("'", '"'))
     controller.repository(body)
+
+def callback_collaborator(ch, method, properties, body):
+    body = json.loads(body.decode('utf8').replace("'", '"'))
+    controller.manage_collaborators(body)

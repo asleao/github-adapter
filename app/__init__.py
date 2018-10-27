@@ -15,8 +15,8 @@ app.add_url_rule('/v1/repo/collaborators', endpoint='repository/collaborators')
 app.add_url_rule('/v1/authorizations', endpoint='authorization')
 
 # CloudAMQ
-from .amq.amq import Amq
-thread = Amq()
+from .amq.consumer import Consumer
+thread = Consumer()
 
 app.app_context().push()
 # Configuration for deploy on Heroku

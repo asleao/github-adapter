@@ -11,9 +11,6 @@ import json
 
 blueprint = Blueprint('github', __name__)
 
-# TODO criar endpont para criar uma authorization e retornar um token para a fila do cloud AMQ.
-
-
 def authenticate(request):
     data = request.json
     if 'token' in data:
@@ -38,7 +35,7 @@ def repository():
     return jsonify('{} created succesfully!'.format(repository_name))
 
 
-@blueprint.route('/v1/repo/collaborators', methods=['PUT'])
+@blueprint.route('/v1/repo/collaborators', methods=['POST'])
 def add_collaborator():
     """
     Funcion responsable for adding a collaborator to specific repository.
@@ -73,13 +70,12 @@ def remove_collaborator():
         return jsonify('{} removed succesfully from {}!'.format(collaborator, repository_name))
 
 # TODO Criar formulário para o usuário preencher os dados.
-
-
 @blueprint.route('/v1/authorizations', methods=['POST'])
 def create_authorization():
     """
     Funcion responsable for create a authorization for the application.
     """
+    #TODO: Criar form para solicitar a permissão de escopo.
     data = request.json
     scopes = [
         'user',
