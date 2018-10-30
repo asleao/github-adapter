@@ -2,14 +2,16 @@
     TODO: Alterar nome da classe para blueprint.
 """
 from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for
+    Blueprint, flash, g, redirect, render_template, request, url_for, current_app
 )
 from werkzeug.exceptions import abort
 from github import Github
 from flask import jsonify, request
 import json
+import os
 
 blueprint = Blueprint('github', __name__)
+
 
 def authenticate(request):
     data = request.json
@@ -70,12 +72,14 @@ def remove_collaborator():
         return jsonify('{} removed succesfully from {}!'.format(collaborator, repository_name))
 
 # TODO Criar formulário para o usuário preencher os dados.
+
+
 @blueprint.route('/v1/authorizations', methods=['POST'])
 def create_authorization():
     """
     Funcion responsable for create a authorization for the application.
     """
-    #TODO: Criar form para solicitar a permissão de escopo.
+    # TODO: Criar form para solicitar a permissão de escopo.
     data = request.json
     scopes = [
         'user',
@@ -87,8 +91,8 @@ def create_authorization():
     ]
     note = "Authorization for the project LedzZeppelin"
     note_url = "http://www.ledzeppellin-api.com"
-    client_id = data['client_id']
-    client_secret = data['client_secret']
+    client_id = current_app.config['GITHUB_CLIENT']
+    client_secret = current_app.config['GITHUB_SECRET']
     github_object = authenticate(request=request)
     authorization = github_object.get_user().create_authorization(
         scopes=scopes, note=note, note_url=note_url, client_id=client_id, client_secret=client_secret)
