@@ -24,13 +24,10 @@ def repository(data):
     github_object = authenticate(data=data)
     language = data['language']
     repository_name = data['name']
-    team = data['team']
     repository = github_object.get_user().create_repo(
         repository_name, gitignore_template=language, auto_init=True)
     print('{} created succesfully!'.format(repository_name))
 
-    for member in team:
-        add_collaborator(repository, member, repository_name)
     # TODO Enviar callback?
 
 
@@ -39,14 +36,15 @@ def manage_collaborators(data):
         Funcion responsable for manage collaborators of the repository.
     """
     github_object = authenticate(data=data)
-    collaborator = data['collaborator']
-    repository_name = data['repo_name']
+    collaborators = data['collaborators']
+    repository_name = data['name']
     repository = github_object.get_user().get_repo(repository_name)
 
-    if data['action'] == 'add':
-        add_collaborator(repository, collaborator, repository_name)
-    elif data['action'] == 'remove':
-        remove_collaborator(repository, collaborator, repository_name)
+    for collaborator in collaborators:
+        if data['action'] == 'add':
+            add_collaborator(repository, collaborator, repository_name)
+        elif data['action'] == 'remove':
+            remove_collaborator(repository, collaborator, repository_name)
 
 
 def add_collaborator(repository, collaborator, repository_name):
