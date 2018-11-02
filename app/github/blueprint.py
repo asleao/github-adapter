@@ -74,13 +74,11 @@ def remove_collaborator():
 # TODO Criar formulário para o usuário preencher os dados.
 
 
-@blueprint.route('/v1/authorizations', methods=['POST'])
+@blueprint.route('/v1/authorizations', methods=['GET', 'POST'])
 def create_authorization():
     """
     Funcion responsable for create a authorization for the application.
     """
-    # TODO: Criar form para solicitar a permissão de escopo.
-    data = request.json
     scopes = [
         'user',
         'read:org',
@@ -93,9 +91,14 @@ def create_authorization():
     note_url = "http://www.ledzeppellin-api.com"
     client_id = current_app.config['GITHUB_CLIENT']
     client_secret = current_app.config['GITHUB_SECRET']
-    github_object = authenticate(request=request)
-    authorization = github_object.get_user().create_authorization(
-        scopes=scopes, note=note, note_url=note_url, client_id=client_id, client_secret=client_secret)
-    authorization_data = {}
-    authorization_data['token'] = authorization.token
-    return json.dumps(authorization_data)
+    if request.method == 'POST':
+        # TODO: Criar form para solicitar a permissão de escopo.
+        data = request.json
+        github_object = authenticate(request=request)
+        authorization = github_object.get_user().create_authorization(
+            scopes=scopes, note=note, note_url=note_url, client_id=client_id, client_secret=client_secret)
+        authorization_data = {}
+        authorization_data['token'] = authorization.token
+        return json.dumps(authorization_data)
+    elif request.method == 'GET':
+        return render_template('authorization.html', scopes=scopes)

@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h2 class="center">{% block title %}Autorizar LedsZeppellin{% endblock %}</h2>
+<p class="flow-text center">
+  </h3>A aplicação LedsZeppellin está solicitando acesso as seguintes permissões de acesso:</p>
+
+{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col s12 m3">
+    <div class="card-panel grey lighten-5">
+      <p class="flow-text center"> Revise as permissões:</p>
+      <div class="center">{% for scope in scopes %}
+        {{ scope }} <br>
+        {% endfor %}
+      </div>
+    </div>
+    <form method="post">
+      <button class="btn waves-effect waves-light right" type="submit" name="action">Autorizar<i class="material-icons right">send</i>
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}
