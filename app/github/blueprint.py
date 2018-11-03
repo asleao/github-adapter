@@ -9,7 +9,7 @@ from github import Github
 from flask import jsonify, request
 import json
 import os
-
+import requests
 blueprint = Blueprint('github', __name__)
 
 
@@ -74,31 +74,31 @@ def remove_collaborator():
 # TODO Criar formulário para o usuário preencher os dados.
 
 
-@blueprint.route('/v1/authorizations', methods=['GET', 'POST'])
+@blueprint.route('/v1/authorization/callback', methods=['GET'])
 def create_authorization():
     """
     Funcion responsable for create a authorization for the application.
     """
-    scopes = [
-        'user',
-        'read:org',
-        'public_repo',
-        'admin:repo_hook',
-        'admin:org',
-        'user:email'
-    ]
-    note = "Authorization for the project LedzZeppelin"
-    note_url = "http://www.ledzeppellin-api.com"
+
+    params = {'client_id': current_app.config['GITHUB_CLIENT'],
+              "client_secret": current_app.config['GITHUB_SECRET'],
+              "code": request.args.get('code')
+              }
+    headers = {'accept': 'application/json'}
+    url = "https://github.com/login/oauth/access_token"
+
+    result = requests.post(url, params=params, headers=headers)
+
+    data = result.json()
+    access_token = {}
+    access_token = data['access_token']
+    return json.dumps(access_token)
+
+
+@blueprint.route('/v1/authorization', methods=['GET'])
+def login():
+    scopes = "{user,read:org,public_repo,admin:repo_hook,admin:org,user:email}"
     client_id = current_app.config['GITHUB_CLIENT']
-    client_secret = current_app.config['GITHUB_SECRET']
-    if request.method == 'POST':
-        # TODO: Criar form para solicitar a permissão de escopo.
-        data = request.json
-        github_object = authenticate(request=request)
-        authorization = github_object.get_user().create_authorization(
-            scopes=scopes, note=note, note_url=note_url, client_id=client_id, client_secret=client_secret)
-        authorization_data = {}
-        authorization_data['token'] = authorization.token
-        return json.dumps(authorization_data)
-    elif request.method == 'GET':
-        return render_template('authorization.html', scopes=scopes)
+    url = "https://github.com/login/oauth/authorize?scope={}&client_id={}".format(scopes,
+                                                                                  client_id)
+    return redirect(url)

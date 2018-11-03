@@ -12,7 +12,8 @@ from .github.blueprint import blueprint
 app.register_blueprint(blueprint)
 app.add_url_rule('/v1/repo', endpoint='repository')
 app.add_url_rule('/v1/repo/collaborators', endpoint='repository/collaborators')
-app.add_url_rule('/v1/authorizations', endpoint='authorization')
+app.add_url_rule('/v1/authorization/callback', endpoint='authorization')
+app.add_url_rule('/v1/authorization', endpoint='login')
 
 # CloudAMQ
 from .amq.consumer import Consumer
