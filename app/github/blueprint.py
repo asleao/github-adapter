@@ -90,7 +90,6 @@ def create_authorization():
     result = requests.post(url, params=params, headers=headers)
 
     data = result.json()
-    access_token = {}
     access_token = data['access_token']
     return json.dumps(access_token)
 
