@@ -2,11 +2,14 @@ import pika
 import os
 import logging
 import json
+
+from dotenv.environ import getenv
+
 from app.github import controller
 
 
 def setup():
-    URL = os.environ.get('CLOUDAMQP_URL')
+    URL = getenv('CLOUDAMQP_URL')
     return pika.URLParameters(URL)
 
 
