@@ -10,14 +10,14 @@ addons:
       secure: "$SONAR_TOKEN"
     branches:
     - master
-install: 
-  - pip install -r requirements.txt
+install:
+- pip install -r requirements.txt
 script:
 - sonar-scanner -Dsonar.login=$SONAR_TOKEN
 deploy:
   provider: heroku
   api_key:
-    secure: fx4Z+5Ia51tMvpab/INPu4jEwqFb8EWlj4aGvXKfLXgUEWw0a5N3oWPpVYFDYLgt5NpTFBrWQRMYwffpuuE6psh/NAHg7+nMXCOkHSBCi3/IQiFXnAFW6R8+YJmIWT8OY4VGJYbSeeU5QAnjjVoN8DZkvShGSfE3OStod0MXdZc6HDDuNEoTGm8QMI+8R3wgRsAy4N/svYK/HT900CxXTpAJLRVmTC8EcpW1uZa3HFT7+mO57Y0Z+HwOWOqr0iuhXlYS9dD5QED53o7QPVrFTqvY+E4duXytn6V/OOAtRAQ7Nk56vQ38BBFe8BIeWyyQon7GG6lsrlnbNTt58PHd84YJzTTVKLqVraqe5APU7h/RKegggfgD3gaCKkfjAlb0LXnbWj3IY5OEBcB3uUNTLr7JwzlD9bibUalR8nMb5cqUvRoaBtJ7ST9XmcrpJlm3SckoSDboX9SfZ+TqI3brJwYK37XQDCbpvI8fFyhbpWRQwjp4PYM6ezt7b7cAJ6+X0Bjnp7uK/gd2Ui425f5Wod0KHoYbCxz14pgS0V+uZFRlODGiF2vWVyFI1yeSw0k0+0UD+c3FPq5IoAXYJm4BF+5BRSLAELmYJdP41dFkiBzoFR0AoUGLqT9JzP/kQFoYRLkxrhKxyPjtWb3oItKtkEwL7strQrI9OPvfsSXI1Xg=
-  app: github-mservice
+    secure: QNPZPxroFLAl2FKuXIGpct3xE3/V+mK+mhLufimICn8odDtOCEOZrnNHaV1Y9xHFY/9/RMzYvMqElG+8QGhKIJInAYtcCFq7+v0GLzxOSsR4AzQX2m4FApCO+M54Upwl2+c4E3NejLOL5Q3/BwhAOAWAz/w1sHN4fdlhtNSIhrtWsTHRgQF/L9lxovt6ojDukEwyamjMe//smxbQzhrP378zhascG5Hkp0rhqf24ApA/lMtutMoz6WONqIKAyOifSJiX9lsCH/nnV3e/bLF9x9IzO8r4CjIBUXtWTucEENNFB+VuGXdHchSmJbGfcseIRXM2tehn6431QsqMirAMJJiNhqPB+2o/on9dmQMA/WH2lBfLXo18eEU/44o9+rksdiEbtZ6Z1Uwj2tWaJIsMyiQQn7THlu9j/SCC8y0smhl2agZ/f02qIxr+22DTcSe1Ywmy+87aq0njiu+nGowr5vZO1Buz53CsBaVaOt9FRgNbduTFdD1SYdz+3JNlH5SZjJcgEphk1cNiM5yTdpEL64QX24Sd5tIFi8+09qHtvRueFQdgGrJISlnpK5TUPq/5zX9mlitGWv9qdxdwPRtbRjW7NaVFQ073a/QIq6KpFPZdswI1Vbgah0GLXk6X5+5uijklKcF693YHj4VbbszjpQHXRUJZR0+ADI20y7haHF4=
+  app: github-adapter
   on:
-    repo: asleao/github-service
+    repo: asleao/github-adapter
