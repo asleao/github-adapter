@@ -28,6 +28,9 @@ PyGithub==1.43.2
 PyJWT==1.6.4
 pylint==2.1.1
 pytest==3.8.2
+pytest-cov==2.6.1
+pytest-flask==0.14.0
+pytest-runner==4.2
 python-dotenv==0.10.1
 pytz==2018.5
 requests==2.20.0
