@@ -1,11 +1,8 @@
 """
     TODO: Alterar nome da classe para blueprint.
 """
-from werkzeug.exceptions import abort
 from github import Github
-from flask import jsonify, request
-import json
-from flask import current_app
+
 
 # TODO criar endpont para criar uma authorization e retornar um token para a fila do cloud AMQ.
 
@@ -24,11 +21,24 @@ def repository(data):
     github_object = authenticate(data=data)
     language = data['language']
     repository_name = data['name']
-    repository = github_object.get_user().create_repo(
-        repository_name, gitignore_template=language, auto_init=True)
-    print('{} created succesfully!'.format(repository_name))
+    if data['action'] == 'add':
+        add_repository(github_object, language, repository_name)
+    elif data['action'] == 'remove':
+        username = github_object.get_user().login
+        repository_slug = '{}/{}'.format(username, repository_name)
+        repo = github_object.get_repo(repository_slug)
+        if repo is not None:
+            repo.delete()
+            print('{} removed succesfully!'.format(repository_name))
 
     # TODO Enviar callback?
+
+
+def add_repository(github_object, language, repository_name):
+    repo = github_object.get_user().create_repo(
+        repository_name, gitignore_template=language, auto_init=True)
+    print(repo.full_name)
+    print('{} created succesfully!'.format(repository_name))
 
 
 def manage_collaborators(data):
