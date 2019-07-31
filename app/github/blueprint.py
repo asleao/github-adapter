@@ -1,15 +1,15 @@
 """
     TODO: Alterar nome da classe para blueprint.
 """
-from flask import (
-    Blueprint, flash, g, redirect, render_template, request, url_for, current_app
-)
-from werkzeug.exceptions import abort
-from github import Github
-from flask import jsonify, request
 import json
-import os
+
 import requests
+from flask import (
+    Blueprint, redirect, current_app
+)
+from flask import jsonify, request
+from github import Github
+
 blueprint = Blueprint('github', __name__)
 
 
