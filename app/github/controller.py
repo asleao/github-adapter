@@ -1,10 +1,4 @@
-"""
-    TODO: Alterar nome da classe para blueprint.
-"""
 from github import Github
-
-
-# TODO criar endpont para criar uma authorization e retornar um token para a fila do cloud AMQ.
 
 
 def authenticate(data):
@@ -35,9 +29,8 @@ def repository(data):
 
 
 def add_repository(github_object, language, repository_name):
-    repo = github_object.get_user().create_repo(
+    github_object.get_user().create_repo(
         repository_name, gitignore_template=language, auto_init=True)
-    print(repo.full_name)
     print('{} created succesfully!'.format(repository_name))
 
 
@@ -70,8 +63,7 @@ def remove_collaborator(repository, collaborator, repository_name):
     """
         Funcion responsable to remove collaborators from the repository.
     """
-    if repository.has_in_collaborators(collaborator) == False:
-        # TODO: realizar um retorno http para usuário não existente
+    if not repository.has_in_collaborators(collaborator):
         return print('{} doesn\'t exist in {}!'.format(collaborator, repository_name))
     else:
         repository.remove_from_collaborators(collaborator)
