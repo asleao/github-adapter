@@ -28,12 +28,12 @@ class Consumer(object):
         channel = connection.channel()  # start a channel
         channel.queue_declare(queue=project_queue)
         channel.queue_declare(queue=collaborator_queue)
-        channel.basic_consume(callback_repository,
-                              queue=project_queue,
-                              no_ack=True)
-        channel.basic_consume(callback_collaborator,
-                              queue=collaborator_queue,
-                              no_ack=True)
+        channel.basic_consume(project_queue,
+                              callback_repository,
+                              auto_ack=True)
+        channel.basic_consume(collaborator_queue,
+                              callback_collaborator,
+                              auto_ack=True)
         try:
             channel.start_consuming()
         except KeyboardInterrupt:
