@@ -1,7 +1,7 @@
 import os
-import pika
 
 from flask import Flask
+
 # create and configure the app
 app = Flask(__name__)
 app.config.from_object('config')
