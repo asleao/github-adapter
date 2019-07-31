@@ -1,9 +1,7 @@
 import threading
-from os import getenv
-
+import time
 import pika
-
-from .controller import setup, callback_repository, callback_collaborator
+from .controller import setup, callback_repository,callback_collaborator
 
 
 class Consumer(object):
@@ -17,23 +15,21 @@ class Consumer(object):
         """
 
         thread = threading.Thread(target=self.run, args=())
-        thread.daemon = True  # Daemonize thread
-        thread.start()  # Start the execution
+        thread.daemon = True                            # Daemonize thread
+        thread.start()                                  # Start the execution
 
     def run(self):
-        project_queue = getenv("PROJECT_QUEUE")
-        collaborator_queue = getenv("COLLABORATOR_QUEUE")
         params_amq = setup()
         connection = pika.BlockingConnection(params_amq)
         channel = connection.channel()  # start a channel
-        channel.queue_declare(queue=project_queue)
-        channel.queue_declare(queue=collaborator_queue)
-        channel.basic_consume(project_queue,
-                              callback_repository,
-                              auto_ack=True)
-        channel.basic_consume(collaborator_queue,
-                              callback_collaborator,
-                              auto_ack=True)
+        channel.queue_declare(queue='Github_Repository')
+        channel.queue_declare(queue='Github_Collaborator')
+        channel.basic_consume(callback_repository,
+                              queue='Github_Repository',
+                              no_ack=True)
+        channel.basic_consume(callback_collaborator,
+                              queue='Github_Collaborator',
+                              no_ack=True)                    
         try:
             channel.start_consuming()
         except KeyboardInterrupt:
