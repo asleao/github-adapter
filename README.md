@@ -1,16 +1,16 @@
-# github-adapter [![Build Status](https://travis-ci.org/asleao/github-service.svg?branch=master)](https://travis-ci.org/asleao/github-service)
+# github-adapter [![Build Status](https://travis-ci.org/asleao/github-adapter.svg?branch=master)](https://travis-ci.org/asleao/github-adapter)
 Adapter para realizar a comunicação com a api do Github.
 
 # Instalação
 
 Configure as variáveis de ambiente abaixo:
 
-    export FLASK_APP=githubms
+    export FLASK_APP=app
     export FLASK_ENV=development
 
 Clone o projeto, entre no diretorio e rode o comando:
 
-    pip install -e . 
+    pip install -r requirements.txt 
 
 Para rodar o projeto execute o comando:
 
