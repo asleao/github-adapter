@@ -71,6 +71,7 @@ def remove_collaborator():
         repository.remove_from_collaborators(collaborator)
         return jsonify('{} removed succesfully from {}!'.format(collaborator, repository_name))
 
+
 # TODO Criar formulário para o usuário preencher os dados.
 
 
@@ -96,7 +97,7 @@ def create_authorization():
 
 @blueprint.route('/v1/authorization', methods=['GET'])
 def login():
-    scopes = "{user,read:org,public_repo,admin:repo_hook,admin:org,user:email,delete_repo}"
+    scopes = "{user,read:org,public_repo,admin:repo_hook,admin:org,user:email,delete_repo,gist}"
     client_id = current_app.config['GITHUB_CLIENT']
     url = "https://github.com/login/oauth/authorize?scope={}&client_id={}".format(scopes,
                                                                                   client_id)
