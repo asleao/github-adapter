@@ -96,7 +96,7 @@ def create_authorization():
 
 @blueprint.route('/v1/authorization', methods=['GET'])
 def login():
-    scopes = "{user,read:org,public_repo,admin:repo_hook,admin:org,user:email}"
+    scopes = "{user,read:org,public_repo,admin:repo_hook,admin:org,user:email,delete_repo}"
     client_id = current_app.config['GITHUB_CLIENT']
     url = "https://github.com/login/oauth/authorize?scope={}&client_id={}".format(scopes,
                                                                                   client_id)
