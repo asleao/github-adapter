@@ -15,12 +15,12 @@ def repository(data):
     """
 
     loop = asyncio.new_event_loop()
-    loop.run_until_complete(manage_repository(data))
+    loop.run_until_complete(repository_task(data))
     loop.close()
     # TODO Enviar callback?
 
 
-async def manage_repository(data):
+async def repository_task(data):
     github_object = authenticate(data=data)
     language = data['language']
     repository_name = data['name']
@@ -49,33 +49,38 @@ def manage_collaborators(data):
     """
         Funcion responsable for manage collaborators of the repository.
     """
+    loop = asyncio.new_event_loop()
+    loop.run_until_complete(collaborators_task(data))
+    loop.close()
+
+
+async def collaborators_task(data):
     github_object = authenticate(data=data)
     collaborators = data['collaborators']
     repository_name = data['name']
-    repository = github_object.get_user().get_repo(repository_name)
-
+    repository_object = github_object.get_user().get_repo(repository_name)
     for collaborator in collaborators:
         if data['action'] == 'add':
-            add_collaborator(repository, collaborator, repository_name)
+            asyncio.ensure_future(add_collaborator(repository_object, collaborator, repository_name))
         elif data['action'] == 'remove':
-            remove_collaborator(repository, collaborator, repository_name)
+            asyncio.ensure_future(remove_collaborator(repository_object, collaborator, repository_name))
 
 
-def add_collaborator(repository, collaborator, repository_name):
+async def add_collaborator(repository_object, collaborator, repository_name):
     """
         Funcion responsable for adding collaborators to the repository.
     """
-    repository.add_to_collaborators(collaborator, repository_name)
+    repository_object.add_to_collaborators(collaborator, repository_name)
     print('{} added succesfully on {}!'.format(
         collaborator, repository_name))
 
 
-def remove_collaborator(repository, collaborator, repository_name):
+async def remove_collaborator(repository_object, collaborator, repository_name):
     """
         Funcion responsable to remove collaborators from the repository.
     """
-    if not repository.has_in_collaborators(collaborator):
+    if not repository_object.has_in_collaborators(collaborator):
         return print('{} doesn\'t exist in {}!'.format(collaborator, repository_name))
     else:
-        repository.remove_from_collaborators(collaborator)
+        repository_object.remove_from_collaborators(collaborator)
         return print('{} removed succesfully from {}!'.format(collaborator, repository_name))
