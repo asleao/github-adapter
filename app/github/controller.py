@@ -1,4 +1,5 @@
 from github import Github
+import asyncio
 
 
 def authenticate(data):
@@ -12,23 +13,33 @@ def repository(data):
     """
     Funcion responsable for getting the credentials and create a repository.
     """
+
+    loop = asyncio.new_event_loop()
+    loop.run_until_complete(manage_repository(data))
+    loop.close()
+    # TODO Enviar callback?
+
+
+async def manage_repository(data):
     github_object = authenticate(data=data)
     language = data['language']
     repository_name = data['name']
     if data['action'] == 'add':
-        add_repository(github_object, language, repository_name)
+        asyncio.ensure_future(add_repository(github_object, language, repository_name))
     elif data['action'] == 'remove':
-        username = github_object.get_user().login
-        repository_slug = '{}/{}'.format(username, repository_name)
-        repo = github_object.get_repo(repository_slug)
-        if repo is not None:
-            repo.delete()
-            print('{} removed succesfully!'.format(repository_name))
-
-    # TODO Enviar callback?
+        asyncio.ensure_future(remove_repository(github_object, repository_name))
 
 
-def add_repository(github_object, language, repository_name):
+async def remove_repository(github_object, repository_name):
+    username = github_object.get_user().login
+    repository_slug = '{}/{}'.format(username, repository_name)
+    repo = github_object.get_repo(repository_slug)
+    if repo is not None:
+        repo.delete()
+        print('{} removed succesfully!'.format(repository_name))
+
+
+async def add_repository(github_object, language, repository_name):
     github_object.get_user().create_repo(
         repository_name, gitignore_template=language, auto_init=True)
     print('{} created succesfully!'.format(repository_name))
